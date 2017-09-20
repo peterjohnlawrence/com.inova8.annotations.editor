@@ -1,13 +1,32 @@
 {
-  "welcomeFile": "/webapp/index.html",
   "routes": [
+    {
+      "path": "/webapp/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources",
+        "version": "1.48.5"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/webapp/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources",
+        "version": "1.48.5"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
     {
       "path": "/resources",
       "target": {
         "type": "service",
         "name": "sapui5",
         "entryPath": "/resources",
-        "version": "1.44.12"
+        "version": "1.48.5"
       },
       "description": "SAPUI5 Resources"
     },
@@ -17,10 +36,17 @@
         "type": "service",
         "name": "sapui5",
         "entryPath": "/test-resources",
-        "version": "1.44.12"
+        "version": "1.48.5"
       },
       "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/odata2sparql",
+      "target": {
+        "type": "destination",
+        "name": "odata2sparql"
+      },
+      "description": "odata2sparql"
     }
-  ],
-  "sendWelcomeFileRedirect": true
+  ]
 }

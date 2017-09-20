@@ -6,18 +6,36 @@
   "build": {
     "targetFolder": "dist",
     "sourceFolder": "webapp",
+    "excludedFolders": [
+      "test"
+    ],
+    "excludedFiles": [
+      "test.html"
+    ],
     "buildRequired": true
+  },
+  "dataBinding": {
+    "/webapp/view/App.view.xml": {
+      "entitySet": "UNBINDKEY"
+    },
+    "/webapp/view/NotFound.view.xml": {
+      "entitySet": "UNBINDKEY"
+    },
+    "/webapp/view/ObjectNotFound.view.xml": {
+      "entitySet": "UNBINDKEY"
+    },
+    "/webapp/view/Worklist.view.xml": {
+      "entitySet": "SubstanceAnnotation"
+    },
+    "/webapp/view/Object.view.xml": {
+      "entitySet": "SubstanceAnnotation"
+    }
   },
   "generation": [
     {
-      "templateId": "ui5template.basicSAPUI5ApplicationProjectCommon",
-      "templateVersion": "1.32.0",
-      "dateTimeStamp": "Wed, 20 Sep 2017 18:32:45 GMT"
-    },
-    {
-      "templateId": "ui5template.basicSAPUI5ApplicationProject",
-      "templateVersion": "1.40.12",
-      "dateTimeStamp": "Wed, 20 Sep 2017 18:32:45 GMT"
+      "templateId": "sap.ui.ui5-template-plugin.1worklist",
+      "templateVersion": "1.38.3",
+      "dateTimeStamp": "Tue, 19 Sep 2017 16:23:09 GMT"
     }
   ],
   "codeCheckingTriggers": {
@@ -32,6 +50,13 @@
     "defaultLanguage": "en",
     "defaultI18NPropertyFile": "i18n.properties",
     "resourceModelName": "i18n"
+  },
+  "mockpreview": {
+    "mockUri": "/odata2sparql/odata2sparql.v2/2.0/annpending",
+    "metadataFilePath": "",
+    "loadJSONFiles": false,
+    "loadCustomRequests": false,
+    "mockRequestsFilePath": ""
   },
   "basevalidator": {
     "services": {

@@ -16,7 +16,10 @@ sap.ui.define([
 
 		onInit: function() {
 			var that = this;
-			this.getRouter().getTargets().getTarget("create").attachDisplay(null, this._onDisplay, this);
+			this.getRouter().getTargets().getTarget("object").attachDisplay(null, this._onDisplay, this);
+
+		//	this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+
 			this._oODataModel = this.getOwnerComponent().getModel();
 			this._oResourceBundle = this.getResourceBundle();
 			this._oViewModel = new JSONModel({
@@ -43,6 +46,23 @@ sap.ui.define([
 					}
 				}
 			});
+			
+/*				var iOriginalBusyDelay,
+					oViewModel = new JSONModel({
+						busy : true,
+						delay : 0
+					});
+
+				this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+
+				// Store original busy indicator delay, so it can be restored later on
+				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
+				this.setModel(oViewModel, "objectView");
+				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
+						// Restore original busy indicator delay for the object view
+						oViewModel.setProperty("/delay", iOriginalBusyDelay);
+					}
+				);*/
 		},
 
 		/* =========================================================== */
@@ -130,7 +150,7 @@ sap.ui.define([
 			if (sPreviousHash !== undefined) {
 				history.go(-1);
 			} else {
-				this.getRouter().navTo("worklist", {}, true);
+				this._navBack();
 			}
 		},
 
@@ -154,6 +174,22 @@ sap.ui.define([
 		/* =========================================================== */
 		/* Internal functions
 		/* =========================================================== */
+
+		/**
+		 * Binds the view to the object path.
+		 * @function
+		 * @param {sap.ui.base.Event} oEvent pattern match event in route 'object'
+		 * @private
+		 */
+		_onObjectMatched: function(oEvent) {
+			var sObjectId = oEvent.getParameter("arguments").objectId;
+			this.getModel().metadataLoaded().then(function() {
+				var sObjectPath = this.getModel().createKey("SubstanceAnnotation", {
+					subjectId: sObjectId
+				});
+				this._bindView("/" + sObjectPath);
+			}.bind(this));
+		},
 		/**
 		 * Navigates back in the browser history, if the entry was created by this app.
 		 * If not, it navigates to the Details page
@@ -186,8 +222,7 @@ sap.ui.define([
 				// The history contains a previous entry
 				history.go(-1);
 			} else {
-				this.getRouter().navTo("worklist", {}, true);
-				//this.getRouter().getTargets().display("object");
+				this.getRouter().getTargets().display("worklist");
 			}
 		},
 
@@ -246,7 +281,7 @@ sap.ui.define([
 
 			this._oViewModel.setProperty("/viewTitle", this._oResourceBundle.getText("createViewTitle"));
 			this._oViewModel.setProperty("/mode", "create");
-			var oContext = this._oODataModel.createEntry("Substance", {
+			var oContext = this._oODataModel.createEntry("SubstanceAnnotation", {
 				success: this._fnEntityCreated.bind(this),
 				error: this._fnEntityCreationFailed.bind(this)
 			});
@@ -310,7 +345,7 @@ sap.ui.define([
 		 * @private
 		 */
 		_fnEntityCreated: function(oData) {
-			var sObjectPath = this.getModel().createKey("Substance", oData);
+			var sObjectPath = this.getModel().createKey("SubstanceAnnotation", oData);
 			this.getModel("appView").setProperty("/itemToSelect", "/" + sObjectPath); //save last created
 			this.getModel("appView").setProperty("/busy", false);
 			this.getRouter().getTargets().display("object");

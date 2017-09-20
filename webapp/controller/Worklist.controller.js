@@ -94,11 +94,11 @@ sap.ui.define([
 			var sObjectPath = oEvent.getSource().getBindingContext().getPath();
 			// var sObjectPath = this.getView().getElementBinding().getPath();
 
-			var subjectId =oEvent.getSource().getBindingContext().getProperty("subjectId");
-			var	sPathArray = sObjectPath.split("/");
-			sPathArray[sPathArray.length-2]+= "('"+subjectId+"')";
-			sPathArray.pop();
-			sObjectPath=sPathArray.join("/");
+			// var subjectId =oEvent.getSource().getBindingContext().getProperty("subjectId");
+			// var	sPathArray = sObjectPath.split("/");
+			// sPathArray[sPathArray.length-2]+= "('"+subjectId+"')";
+			// sPathArray.pop();
+			// sObjectPath=sPathArray.join("/");
 			this.getRouter().getTargets().display("object", {
 				mode: "update",
 				objectPath: sObjectPath
