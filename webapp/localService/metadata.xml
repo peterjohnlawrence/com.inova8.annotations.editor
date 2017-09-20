@@ -1,0 +1,497 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" Version="1.0">
+    <edmx:DataServices
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="Instances">
+            <EntityContainer Name="InstanceContainer" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="rdf_Seq" EntityType="rdf.Seq"/>
+                <EntitySet Name="rdf_Property" EntityType="rdf.Property"/>
+                <EntitySet Name="rdf_Statement" EntityType="rdf.Statement"/>
+                <EntitySet Name="owl_Class" EntityType="owl.Class"/>
+                <EntitySet Name="owl_Ontology" EntityType="owl.Ontology"/>
+                <EntitySet Name="owl_DatatypeProperty" EntityType="owl.DatatypeProperty"/>
+                <EntitySet Name="Contributor" EntityType="annotation.Contributor"/>
+                <EntitySet Name="rdf_Bag" EntityType="rdf.Bag"/>
+                <EntitySet Name="rdf_Alt" EntityType="rdf.Alt"/>
+                <EntitySet Name="Creator" EntityType="annotation.Creator"/>
+                <EntitySet Name="rdfs_Resource" EntityType="rdfs.Resource"/>
+                <EntitySet Name="rdfs_Class" EntityType="rdfs.Class"/>
+                <EntitySet Name="rdfs_Container" EntityType="rdfs.Container"/>
+                <EntitySet Name="rdf_List" EntityType="rdf.List"/>
+                <EntitySet Name="Subject" EntityType="annotation.Subject"/>
+                <EntitySet Name="owl_ObjectProperty" EntityType="owl.ObjectProperty"/>
+                <EntitySet Name="rdfs_Datatype" EntityType="rdfs.Datatype"/>
+                <EntitySet Name="Motivation" EntityType="annotation.Motivation"/>
+                <EntitySet Name="rdfs_Literal" EntityType="rdfs.Literal"/>
+                <EntitySet Name="SubstanceAnnotation" EntityType="annotation.SubstanceAnnotation"/>
+                <EntitySet Name="owl_Thing" EntityType="owl.Thing"/>
+                <EntitySet Name="Substance" EntityType="annotation.Substance"/>
+                <EntitySet Name="Tag" EntityType="annotation.Tag"/>
+                <EntitySet Name="rdfs_ContainerMembershipProperty" EntityType="rdfs.ContainerMembershipProperty"/>
+                <AssociationSet Name="subject_SubstanceAnnotation" Association="annotation.subject_SubstanceAnnotation">
+                    <End EntitySet="Subject" Role="Subject"/>
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_subClassOf" Association="rdfs.rdfs_subClassOf">
+                    <End EntitySet="rdfs_Class" Role="Class"/>
+                    <End EntitySet="rdfs_Class" Role="Class1"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_range" Association="rdf.rdf_range">
+                    <End EntitySet="rdf_Property" Role="Property"/>
+                    <End EntitySet="rdfs_Class" Role="Class"/>
+                </AssociationSet>
+                <AssociationSet Name="tag_Thing" Association="annotation.tag_Thing">
+                    <End EntitySet="Tag" Role="Tag"/>
+                    <End EntitySet="owl_Thing" Role="Thing"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_seeAlso" Association="rdfs.rdfs_seeAlso">
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource1"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_rest" Association="rdf.rdf_rest">
+                    <End EntitySet="rdf_List" Role="List"/>
+                    <End EntitySet="rdf_List" Role="List1"/>
+                </AssociationSet>
+                <AssociationSet Name="creator_substanceAnnotation" Association="annotation.creator_substanceAnnotation">
+                    <End EntitySet="Creator" Role="Creator"/>
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                </AssociationSet>
+                <AssociationSet Name="substance_SubstanceAnnotation" Association="annotation.substance_SubstanceAnnotation">
+                    <End EntitySet="Substance" Role="Substance"/>
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                </AssociationSet>
+                <AssociationSet Name="substanceAnnotation_Subject" Association="annotation.substanceAnnotation_Subject">
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                    <End EntitySet="Subject" Role="Subject"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_type" Association="rdfs.rdfs_type">
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                    <End EntitySet="rdfs_Class" Role="Class"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_domain" Association="rdf.rdf_domain">
+                    <End EntitySet="rdf_Property" Role="Property"/>
+                    <End EntitySet="rdfs_Class" Role="Class"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_subject" Association="rdf.rdf_subject">
+                    <End EntitySet="rdf_Statement" Role="Statement"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_predicate" Association="rdf.rdf_predicate">
+                    <End EntitySet="rdf_Statement" Role="Statement"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_value" Association="rdfs.rdfs_value">
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource1"/>
+                </AssociationSet>
+                <AssociationSet Name="owl_tag_Thing" Association="owl.owl_tag_Thing">
+                    <End EntitySet="owl_Thing" Role="Thing"/>
+                    <End EntitySet="Tag" Role="Tag"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_Statement" Association="rdfs.rdfs_Statement">
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                    <End EntitySet="rdf_Statement" Role="Statement"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_isDefinedBy" Association="rdfs.rdfs_isDefinedBy">
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource1"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_first" Association="rdf.rdf_first">
+                    <End EntitySet="rdf_List" Role="List"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                </AssociationSet>
+                <AssociationSet Name="substanceAnnotation_Substance" Association="annotation.substanceAnnotation_Substance">
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                    <End EntitySet="Substance" Role="Substance"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_object" Association="rdf.rdf_object">
+                    <End EntitySet="rdf_Statement" Role="Statement"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                </AssociationSet>
+                <AssociationSet Name="rdf_subPropertyOf" Association="rdf.rdf_subPropertyOf">
+                    <End EntitySet="rdf_Property" Role="Property"/>
+                    <End EntitySet="rdf_Property" Role="Property1"/>
+                </AssociationSet>
+                <AssociationSet Name="substanceAnnotation_Creator" Association="annotation.substanceAnnotation_Creator">
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                    <End EntitySet="Creator" Role="Creator"/>
+                </AssociationSet>
+                <AssociationSet Name="owl_thing_Tag" Association="owl.owl_thing_Tag">
+                    <End EntitySet="owl_Thing" Role="Thing"/>
+                    <End EntitySet="Tag" Role="Tag"/>
+                </AssociationSet>
+                <AssociationSet Name="owl_imports" Association="owl.owl_imports">
+                    <End EntitySet="owl_Ontology" Role="Ontology"/>
+                    <End EntitySet="owl_Ontology" Role="Ontology1"/>
+                </AssociationSet>
+                <AssociationSet Name="tag_SubstanceAnnotation" Association="annotation.tag_SubstanceAnnotation">
+                    <End EntitySet="Tag" Role="Tag"/>
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                </AssociationSet>
+                <AssociationSet Name="substanceAnnotation_Tag" Association="annotation.substanceAnnotation_Tag">
+                    <End EntitySet="SubstanceAnnotation" Role="SubstanceAnnotation"/>
+                    <End EntitySet="Tag" Role="Tag"/>
+                </AssociationSet>
+                <AssociationSet Name="rdfs_member" Association="rdfs.rdfs_member">
+                    <End EntitySet="rdfs_Resource" Role="Resource"/>
+                    <End EntitySet="rdfs_Resource" Role="Resource1"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+            xmlns:owl="http://www.w3.org/2002/07/owl" Namespace="annotation" owl:Ontology="http://inova8.com/annotations/">
+            <EntityType Name="Motivation">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="SubstanceAnnotation">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="substanceAnnotation_bodyText" Type="Edm.String" Nullable="true"/>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="pendingSubstanceAnnotation_verified" Type="Edm.Boolean" Nullable="true"/>
+                <Property Name="substanceAnnotation_annotationCreated" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="substanceAnnotation_Creator" Relationship="annotation.substanceAnnotation_Creator" FromRole="SubstanceAnnotation" ToRole="Creator"/>
+                <NavigationProperty Name="substanceAnnotation_Substance" Relationship="annotation.substanceAnnotation_Substance" FromRole="SubstanceAnnotation" ToRole="Substance"/>
+                <NavigationProperty Name="substanceAnnotation_Subject" Relationship="annotation.substanceAnnotation_Subject" FromRole="SubstanceAnnotation" ToRole="Subject"/>
+                <NavigationProperty Name="substanceAnnotation_Tag" Relationship="annotation.substanceAnnotation_Tag" FromRole="SubstanceAnnotation" ToRole="Tag"/>
+            </EntityType>
+            <EntityType Name="Contributor">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Substance">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="substance_SubstanceAnnotation" Relationship="annotation.substance_SubstanceAnnotation" FromRole="Substance" ToRole="SubstanceAnnotation"/>
+            </EntityType>
+            <EntityType Name="Creator">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="creator_substanceAnnotation" Relationship="annotation.creator_substanceAnnotation" FromRole="Creator" ToRole="SubstanceAnnotation"/>
+            </EntityType>
+            <EntityType Name="Tag">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="startIndex" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="phrase" Type="Edm.String" Nullable="true"/>
+                <Property Name="endIndex" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="tag_SubstanceAnnotation" Relationship="annotation.tag_SubstanceAnnotation" FromRole="Tag" ToRole="SubstanceAnnotation"/>
+                <NavigationProperty Name="tag_Thing" Relationship="annotation.tag_Thing" FromRole="Tag" ToRole="Thing"/>
+            </EntityType>
+            <EntityType Name="Subject">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="subject_SubstanceAnnotation" Relationship="annotation.subject_SubstanceAnnotation" FromRole="Subject" ToRole="SubstanceAnnotation"/>
+            </EntityType>
+            <Association Name="creator_substanceAnnotation">
+                <End Type="annotation.Creator" Multiplicity="*" Role="Creator"/>
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="0..1" Role="SubstanceAnnotation"/>
+            </Association>
+            <Association Name="substanceAnnotation_Substance">
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="*" Role="SubstanceAnnotation"/>
+                <End Type="annotation.Substance" Multiplicity="1" Role="Substance"/>
+            </Association>
+            <Association Name="subject_SubstanceAnnotation">
+                <End Type="annotation.Subject" Multiplicity="*" Role="Subject"/>
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="1" Role="SubstanceAnnotation"/>
+            </Association>
+            <Association Name="substance_SubstanceAnnotation">
+                <End Type="annotation.Substance" Multiplicity="*" Role="Substance"/>
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="1" Role="SubstanceAnnotation"/>
+            </Association>
+            <Association Name="substanceAnnotation_Creator">
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="*" Role="SubstanceAnnotation"/>
+                <End Type="annotation.Creator" Multiplicity="0..1" Role="Creator"/>
+            </Association>
+            <Association Name="substanceAnnotation_Subject">
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="*" Role="SubstanceAnnotation"/>
+                <End Type="annotation.Subject" Multiplicity="1" Role="Subject"/>
+            </Association>
+            <Association Name="tag_Thing">
+                <End Type="annotation.Tag" Multiplicity="*" Role="Tag"/>
+                <End Type="owl.Thing" Multiplicity="*" Role="Thing"/>
+            </Association>
+            <Association Name="tag_SubstanceAnnotation">
+                <End Type="annotation.Tag" Multiplicity="*" Role="Tag"/>
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="*" Role="SubstanceAnnotation"/>
+            </Association>
+            <Association Name="substanceAnnotation_Tag">
+                <End Type="annotation.SubstanceAnnotation" Multiplicity="*" Role="SubstanceAnnotation"/>
+                <End Type="annotation.Tag" Multiplicity="*" Role="Tag"/>
+            </Association>
+            <EntityContainer Name="annotationInstanceContainer"/>
+        </Schema>
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+            xmlns:owl="http://www.w3.org/2002/07/owl" Namespace="rdfs" owl:Ontology="http://www.w3.org/2000/01/rdf-schema#">
+            <EntityType Name="Container">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Literal">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Resource">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="rdfs_Statement" Relationship="rdfs.rdfs_Statement" FromRole="Resource" ToRole="Statement"/>
+                <NavigationProperty Name="rdfs_isDefinedBy" Relationship="rdfs.rdfs_isDefinedBy" FromRole="Resource" ToRole="Resource1"/>
+                <NavigationProperty Name="rdfs_member" Relationship="rdfs.rdfs_member" FromRole="Resource" ToRole="Resource1"/>
+                <NavigationProperty Name="rdfs_seeAlso" Relationship="rdfs.rdfs_seeAlso" FromRole="Resource" ToRole="Resource1"/>
+                <NavigationProperty Name="rdfs_type" Relationship="rdfs.rdfs_type" FromRole="Resource" ToRole="Class"/>
+                <NavigationProperty Name="rdfs_value" Relationship="rdfs.rdfs_value" FromRole="Resource" ToRole="Resource1"/>
+            </EntityType>
+            <EntityType Name="Class">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="rdfs_subClassOf" Relationship="rdfs.rdfs_subClassOf" FromRole="Class" ToRole="Class1"/>
+            </EntityType>
+            <EntityType Name="ContainerMembershipProperty">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Datatype">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <Association Name="rdfs_isDefinedBy">
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource1"/>
+            </Association>
+            <Association Name="rdfs_type">
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+                <End Type="rdfs.Class" Multiplicity="*" Role="Class"/>
+            </Association>
+            <Association Name="rdfs_subClassOf">
+                <End Type="rdfs.Class" Multiplicity="*" Role="Class"/>
+                <End Type="rdfs.Class" Multiplicity="*" Role="Class1"/>
+            </Association>
+            <Association Name="rdfs_seeAlso">
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource1"/>
+            </Association>
+            <Association Name="rdfs_value">
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource1"/>
+            </Association>
+            <Association Name="rdfs_Statement">
+                <End Type="rdfs.Resource" Multiplicity="1" Role="Resource"/>
+                <End Type="rdf.Statement" Multiplicity="*" Role="Statement"/>
+            </Association>
+            <Association Name="rdfs_member">
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource1"/>
+            </Association>
+            <EntityContainer Name="rdfsInstanceContainer"/>
+        </Schema>
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+            xmlns:owl="http://www.w3.org/2002/07/owl" Namespace="rdf" owl:Ontology="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+            <EntityType Name="Statement">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="rdf_object" Relationship="rdf.rdf_object" FromRole="Statement" ToRole="Resource"/>
+                <NavigationProperty Name="rdf_predicate" Relationship="rdf.rdf_predicate" FromRole="Statement" ToRole="Resource"/>
+                <NavigationProperty Name="rdf_subject" Relationship="rdf.rdf_subject" FromRole="Statement" ToRole="Resource"/>
+            </EntityType>
+            <EntityType Name="Alt">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Bag">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="List">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="rdf_first" Relationship="rdf.rdf_first" FromRole="List" ToRole="Resource"/>
+                <NavigationProperty Name="rdf_rest" Relationship="rdf.rdf_rest" FromRole="List" ToRole="List1"/>
+            </EntityType>
+            <EntityType Name="Property">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="rdf_domain" Relationship="rdf.rdf_domain" FromRole="Property" ToRole="Class"/>
+                <NavigationProperty Name="rdf_range" Relationship="rdf.rdf_range" FromRole="Property" ToRole="Class"/>
+                <NavigationProperty Name="rdf_subPropertyOf" Relationship="rdf.rdf_subPropertyOf" FromRole="Property" ToRole="Property1"/>
+            </EntityType>
+            <EntityType Name="Seq">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <ComplexType Name="langString"/>
+            <Association Name="rdf_first">
+                <End Type="rdf.List" Multiplicity="*" Role="List"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+            </Association>
+            <Association Name="rdf_object">
+                <End Type="rdf.Statement" Multiplicity="*" Role="Statement"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+            </Association>
+            <Association Name="rdf_subPropertyOf">
+                <End Type="rdf.Property" Multiplicity="*" Role="Property"/>
+                <End Type="rdf.Property" Multiplicity="*" Role="Property1"/>
+            </Association>
+            <Association Name="rdf_domain">
+                <End Type="rdf.Property" Multiplicity="*" Role="Property"/>
+                <End Type="rdfs.Class" Multiplicity="*" Role="Class"/>
+            </Association>
+            <Association Name="rdf_subject">
+                <End Type="rdf.Statement" Multiplicity="*" Role="Statement"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+            </Association>
+            <Association Name="rdf_predicate">
+                <End Type="rdf.Statement" Multiplicity="*" Role="Statement"/>
+                <End Type="rdfs.Resource" Multiplicity="*" Role="Resource"/>
+            </Association>
+            <Association Name="rdf_range">
+                <End Type="rdf.Property" Multiplicity="*" Role="Property"/>
+                <End Type="rdfs.Class" Multiplicity="*" Role="Class"/>
+            </Association>
+            <Association Name="rdf_rest">
+                <End Type="rdf.List" Multiplicity="*" Role="List"/>
+                <End Type="rdf.List" Multiplicity="*" Role="List1"/>
+            </Association>
+            <EntityContainer Name="rdfInstanceContainer"/>
+        </Schema>
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+            xmlns:owl="http://www.w3.org/2002/07/owl" Namespace="owl" owl:Ontology="http://www.w3.org/2002/07/owl#">
+            <EntityType Name="ObjectProperty">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Ontology">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="owl_imports" Relationship="owl.owl_imports" FromRole="Ontology" ToRole="Ontology1"/>
+            </EntityType>
+            <EntityType Name="Class">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Thing">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+                <NavigationProperty Name="owl_tag_Thing" Relationship="owl.owl_tag_Thing" FromRole="Thing" ToRole="Tag"/>
+                <NavigationProperty Name="owl_thing_Tag" Relationship="owl.owl_thing_Tag" FromRole="Thing" ToRole="Tag"/>
+            </EntityType>
+            <EntityType Name="DatatypeProperty">
+                <Key>
+                    <PropertyRef Name="subjectId"/>
+                </Key>
+                <Property Name="comment" Type="Edm.String" Nullable="true"/>
+                <Property Name="label" Type="Edm.String" Nullable="true"/>
+                <Property Name="subjectId" Type="Edm.String" Nullable="false"/>
+            </EntityType>
+            <Association Name="owl_thing_Tag">
+                <End Type="owl.Thing" Multiplicity="*" Role="Thing"/>
+                <End Type="annotation.Tag" Multiplicity="*" Role="Tag"/>
+            </Association>
+            <Association Name="owl_imports">
+                <End Type="owl.Ontology" Multiplicity="*" Role="Ontology"/>
+                <End Type="owl.Ontology" Multiplicity="0..1" Role="Ontology1"/>
+            </Association>
+            <Association Name="owl_tag_Thing">
+                <End Type="owl.Thing" Multiplicity="*" Role="Thing"/>
+                <End Type="annotation.Tag" Multiplicity="*" Role="Tag"/>
+            </Association>
+            <EntityContainer Name="owlInstanceContainer"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

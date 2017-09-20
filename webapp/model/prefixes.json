@@ -1,0 +1,6 @@
+{
+	"prefixes": {
+		"annotation": "http://inova8.com/annotations/"
+	},
+	"proxy": "abc"
+}

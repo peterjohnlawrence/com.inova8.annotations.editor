@@ -1,0 +1,49 @@
+<mvc:View controllerName="com.inova8.annotations.editor.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" 	xmlns:layout="sap.ui.layout" 	xmlns:rdf="com.inova8.annotations.editor.control" 
+	xmlns:semantic="sap.m.semantic">
+	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>worklistViewTitle}">
+		<semantic:content>		
+			<Table id="table" width="auto" class="sapUiResponsiveMargin"
+				items="{ path: '/SubstanceAnnotation', sorter: { path: 'subjectId', descending: false } , parameters: {'expand':'substanceAnnotation_Creator,substanceAnnotation_Subject,substanceAnnotation_Substance,substanceAnnotation_Tag'} }" noDataText="{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}" growing="true" growingScrollToLoad="true" updateFinished="onUpdateFinished">
+				<headerToolbar>
+					<Toolbar>
+						<Title id="tableHeader" text="{worklistView>/worklistTableTitle}"/>
+						<ToolbarSpacer/>
+						<SearchField id="searchField" tooltip="{i18n>worklistSearchTooltip}" search="onSearch" width="auto"></SearchField>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column id="nameColumn">
+					<!--	<Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle"/>-->
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation" press="onPress">
+						<cells>
+							<layout:Grid >
+								<layout:content>
+									<rdf:TextResource path="substanceAnnotation_Subject" entitySet="Subject"/>
+									<rdf:TextResource path="substanceAnnotation_Substance" entitySet="Substance"/>
+									<rdf:TextResource path="substanceAnnotation_Creator" entitySet="Creator"/>
+<!--									<Text text="{substanceAnnotation_Substance/subjectId}" />
+									<Text text="{substanceAnnotation_Subject/subjectId}" />
+									<Text text="{substanceAnnotation_Creator/subjectId}" />-->
+									<Text
+										text="{ path: 'substanceAnnotation_annotationCreated', type: 'sap.ui.model.type.DateTime', formatOptions: { style : 'medium'}}"/>
+									<TextArea value="{substanceAnnotation_bodyText}" width="100%" rows="5">
+										<layoutData>
+											<layout:GridData span="L12 M12 S12"/>
+										</layoutData>
+									</TextArea>
+								</layout:content>
+							</layout:Grid>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+		<semantic:addAction>
+			<semantic:AddAction id="cancel" press="onAdd"/>
+		</semantic:addAction>
+	</semantic:FullscreenPage>
+</mvc:View>
