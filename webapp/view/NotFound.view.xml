@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="com.inova8.annotations.editor.controller.NotFound"
+	controllerName="com.inova8.annotations.controller.NotFound"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m">
 

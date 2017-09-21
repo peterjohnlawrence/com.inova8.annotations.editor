@@ -1,4 +1,4 @@
-<mvc:View controllerName="com.inova8.annotations.editor.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" 	xmlns:layout="sap.ui.layout" 	xmlns:rdf="com.inova8.annotations.editor.control" 
+<mvc:View controllerName="com.inova8.annotations.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" 	xmlns:layout="sap.ui.layout" 	xmlns:rdf="com.inova8.annotations.control" 
 	xmlns:semantic="sap.m.semantic">
 	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>worklistViewTitle}">
 		<semantic:content>		

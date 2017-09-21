@@ -1,7 +1,7 @@
 {
 	"_version": "1.4.0",
 	"sap.app": {
-		"id": "com.inova8.annotations.editor",
+		"id": "com.inova8.annotations",
 		"type": "application",
 		"i18n": "i18n/i18n.properties",
 		"title": "{{appTitle}}",
@@ -50,7 +50,7 @@
 	},
 	"sap.ui5": {
 		"rootView": {
-			"viewName": "com.inova8.annotations.editor.view.App",
+			"viewName": "com.inova8.annotations.view.App",
 			"type": "XML",
 			"id": "app"
 		},
@@ -73,7 +73,7 @@
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
-					"bundleName": "com.inova8.annotations.editor.i18n.i18n"
+					"bundleName": "com.inova8.annotations.i18n.i18n"
 				}
 			},
 			"": {
@@ -90,7 +90,7 @@
 			"config": {
 				"routerClass": "sap.m.routing.Router",
 				"viewType": "XML",
-				"viewPath": "com.inova8.annotations.editor.view",
+				"viewPath": "com.inova8.annotations.view",
 				"controlId": "app",
 				"controlAggregation": "pages",
 				"bypassed": {

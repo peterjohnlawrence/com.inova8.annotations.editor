@@ -1,13 +1,13 @@
 sap.ui.define([
-	"com/inova8/annotations/editor/controller/BaseController",
+	"com/inova8/annotations/controller/BaseController",
 	"sap/ui/model/json/JSONModel",
-	"com/inova8/annotations/editor/model/formatter",
+	"com/inova8/annotations/model/formatter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator"
 ], function(BaseController, JSONModel, formatter, Filter, FilterOperator) {
 	"use strict";
 
-	return BaseController.extend("com.inova8.annotations.editor.controller.Worklist", {
+	return BaseController.extend("com.inova8.annotations.controller.Worklist", {
 
 		formatter: formatter,
 

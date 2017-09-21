@@ -1,7 +1,7 @@
 /* global rdf:true */
-sap.ui.define(["sap/ui/core/Control", "sap/m/Link", "sap/m/Text", "com/inova8/annotations/editor/libs/rdf"], function(Control, Link, Text, rdf) {
+sap.ui.define(["sap/ui/core/Control", "sap/m/Link", "sap/m/Text", "com/inova8/annotations/libs/rdf"], function(Control, Link, Text, rdf) {
 	"use strict";
-	return Control.extend("com.inova8.annotations.editor.control.TextResource", {
+	return Control.extend("com.inova8.annotations.control.TextResource", {
 		metadata: {
 			properties: {
 				path: {

@@ -1,6 +1,6 @@
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
-	controllerName="com.inova8.annotations.editor.controller.App"
+	controllerName="com.inova8.annotations.controller.App"
 	displayBlock="true"
 	xmlns="sap.m">
 

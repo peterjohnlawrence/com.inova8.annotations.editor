@@ -1,10 +1,10 @@
 sap.ui.define([
-		"com/inova8/annotations/editor/controller/BaseController",
+		"com/inova8/annotations/controller/BaseController",
 		"sap/ui/model/json/JSONModel"
 	], function (BaseController, JSONModel) {
 		"use strict";
 
-		return BaseController.extend("com.inova8.annotations.editor.controller.App", {
+		return BaseController.extend("com.inova8.annotations.controller.App", {
 
 			onInit : function () {
 				var oViewModel,

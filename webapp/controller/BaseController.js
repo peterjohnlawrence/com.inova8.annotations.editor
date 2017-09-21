@@ -3,7 +3,7 @@ sap.ui.define([
 	], function (Controller) {
 		"use strict";
 
-		return Controller.extend("com.inova8.annotations.editor.controller.BaseController", {
+		return Controller.extend("com.inova8.annotations.controller.BaseController", {
 			/**
 			 * Convenience method for accessing the router.
 			 * @public

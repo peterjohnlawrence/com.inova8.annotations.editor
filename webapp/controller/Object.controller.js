@@ -1,12 +1,12 @@
 sap.ui.define([
-	"com/inova8/annotations/editor/controller/BaseController",
+	"com/inova8/annotations/controller/BaseController",
 	"sap/ui/model/json/JSONModel", "sap/ui/core/routing/History",
 	"sap/m/MessageBox"
 
 ], function(BaseController, JSONModel, History, MessageBox) {
 	"use strict";
 
-	return BaseController.extend("com.inova8.annotations.editor.controller.Object", {
+	return BaseController.extend("com.inova8.annotations.controller.Object", {
 
 		_oBinding: {},
 
@@ -421,7 +421,7 @@ sap.ui.define([
 			var sControlType;
 			for (var i = 0; i < aFormContent.length; i++) {
 				sControlType = aFormContent[i].getMetadata().getName();
-				if (sControlType === "sap.m.Input" || sControlType === "sap.m.DateTimeInput"|| sControlType === "com.inova8.annotations.editor.control.InputResource" ||
+				if (sControlType === "sap.m.Input" || sControlType === "sap.m.DateTimeInput"|| sControlType === "com.inova8.annotations.control.InputResource" ||
 					sControlType === "sap.m.CheckBox" || sControlType === "sap.m.TextArea"|| sControlType === "sap.m.DateTimePicker") {
 					aControls.push({
 						control: aFormContent[i],

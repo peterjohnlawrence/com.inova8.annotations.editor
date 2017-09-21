@@ -1,5 +1,5 @@
-<mvc:View controllerName="com.inova8.annotations.editor.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:f="sap.ui.layout.form" xmlns:rdf="com.inova8.annotations.editor.control" xmlns:table="sap.ui.table" xmlns:richedit="richedit"
+<mvc:View controllerName="com.inova8.annotations.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form" xmlns:rdf="com.inova8.annotations.control" xmlns:table="sap.ui.table" xmlns:richedit="richedit"
 	xmlns:semantic="sap.m.semantic">
 	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>objectTitle}" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">

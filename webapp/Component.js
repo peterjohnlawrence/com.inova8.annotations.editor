@@ -1,12 +1,12 @@
 sap.ui.define([
 		"sap/ui/core/UIComponent",
 		"sap/ui/Device",
-		"com/inova8/annotations/editor/model/models",
-		"com/inova8/annotations/editor/controller/ErrorHandler"
+		"com/inova8/annotations/model/models",
+		"com/inova8/annotations/controller/ErrorHandler"
 	], function (UIComponent, Device, models, ErrorHandler) {
 		"use strict";
 
-		return UIComponent.extend("com.inova8.annotations.editor.Component", {
+		return UIComponent.extend("com.inova8.annotations.Component", {
 
 			metadata : {
 				manifest: "json"

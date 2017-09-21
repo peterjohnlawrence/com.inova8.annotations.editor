@@ -1,7 +1,7 @@
 sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap/ui/model/Context"], function(Control, Input, Filter,
 	Context) {
 	"use strict";
-	return Control.extend("com.inova8.annotations.editor.control.InputResource", {
+	return Control.extend("com.inova8.annotations.control.InputResource", {
 		metadata: {
 			properties: {
 				path: {
@@ -62,14 +62,14 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 			//	if (!this._valueHelpDialog) 
 			{
 				this._valueHelpDialog = sap.ui.xmlfragment(
-					"com.inova8.annotations.editor.fragment.ResourceDialog",
+					"com.inova8.annotations.fragment.ResourceDialog",
 					this
 				);
 				this._valueHelpDialog.setModel(this.getModel());
 				this._valueHelpDialog.setTitle(thisParent.getEntitySet());
 
 				var itemTemplate = new sap.m.CustomListItem({
-					content: [new com.inova8.annotations.editor.control.TextResource({
+					content: [new com.inova8.annotations.control.TextResource({
 						path: "",
 						entitySet: thisParent.getEntitySet()
 					})]
