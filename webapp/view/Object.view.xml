@@ -1,15 +1,7 @@
-<mvc:View
-	controllerName="com.inova8.annotations.editor.controller.Object"
-	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form" xmlns:rdf="com.inova8.annotations.editor.control" xmlns:table="sap.ui.table" xmlns:richedit="richedit"
+<mvc:View controllerName="com.inova8.annotations.editor.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form" xmlns:rdf="com.inova8.annotations.editor.control" xmlns:table="sap.ui.table" xmlns:richedit="richedit"
 	xmlns:semantic="sap.m.semantic">
-
-	<semantic:FullscreenPage
-		id="page"
-		navButtonPress="onNavBack"
-		showNavButton="true"
-		title="{i18n>objectTitle}"
-		busy="{objectView>/busy}"
+	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>objectTitle}" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 		<semantic:content>
 			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="newEntitySimpleForm"
@@ -20,18 +12,18 @@
 						enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="true"
 						value="{ path: 'subjectId', type: 'sap.ui.model.odata.type.String' , constraints:{ nullable:false } }"/>
 					<Label text="Subject" required="true"/>
-					<rdf:InputResource path="substanceAnnotation_Subject" entitySet="Subject"/>
+					<rdf:InputResource path="substanceAnnotation_Subject" entitySet="Subject" liveChange="_validateSaveEnablement" required="true"/>
 					<Label text="Substance" required="true"/>
-					<rdf:InputResource path="substanceAnnotation_Substance" entitySet="Substance"/>
+					<rdf:InputResource path="substanceAnnotation_Substance" entitySet="Substance" required="true"/>
 					<Label text="Creator" required="true"/>
-					<rdf:InputResource path="substanceAnnotation_Creator" entitySet="Creator"/>
+					<rdf:InputResource path="substanceAnnotation_Creator" entitySet="Creator" required="true"/>
 					<Label text="Created" required="false"/>
 					<DateTimePicker name="substanceAnnotation_annotationCreated" id="substanceAnnotation_annotationCreated_id"
-						value="{ path: 'substanceAnnotation_annotationCreated', type: 'sap.ui.model.type.DateTime', formatOptions: { style : 'medium'} }"/>
-						<Label text="Annotation Text" required="true"/>
+						value="{ path: 'substanceAnnotation_annotationCreated', type: 'sap.ui.model.type.DateTime', formatOptions: { style : 'medium'} } " required="true"/>
+					<Label text="Annotation Text" required="true"/>
 					<TextArea name="substanceAnnotation_bodyText" id="substanceAnnotation_bodyText_id" valueLiveUpdate="true"
 						liveChange="_validateSaveEnablement" enabled="true" visible="true" rows="7"
-						value="{ path: 'substanceAnnotation_bodyText', type: 'sap.ui.model.odata.type.String' }"/>
+						value="{ path: 'substanceAnnotation_bodyText', type: 'sap.ui.model.odata.type.String' }" required="true"/>
 					<Label text="Proposed tags" required="false"/>
 					<table:Table id="proposedTags" rows="{substanceAnnotation_Tag}" selectionMode="MultiToggle" visibleRowCount="4">
 						<table:columns>
@@ -50,8 +42,8 @@
 							<table:Column >
 								<Label text="Tag"/>
 								<table:template>
-										<rdf:InputResource path="tag_Thing" entitySet="rdfs_Resource"/>
-								<!--	<Text id="tag_id" text="{pendingAnnotations>tag_Thing/subjectId}"/>-->
+									<rdf:InputResource path="tag_Thing" entitySet="rdfs_Resource"/>
+									<!--	<Text id="tag_id" text="{pendingAnnotations>tag_Thing/subjectId}"/>-->
 								</table:template>
 							</table:Column>
 						</table:columns>
@@ -66,5 +58,4 @@
 			<semantic:CancelAction id="cancel" press="onCancel"/>
 		</semantic:cancelAction>
 	</semantic:FullscreenPage>
-
 </mvc:View>

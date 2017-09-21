@@ -18,12 +18,12 @@ sap.ui.define([
 			var that = this;
 			this.getRouter().getTargets().getTarget("object").attachDisplay(null, this._onDisplay, this);
 
-		//	this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+			//	this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
 
 			this._oODataModel = this.getOwnerComponent().getModel();
 			this._oResourceBundle = this.getResourceBundle();
 			this._oViewModel = new JSONModel({
-				enableCreate: false,
+				enableCreate: false, //,
 				delay: 0,
 				busy: false,
 				mode: "create",
@@ -46,23 +46,23 @@ sap.ui.define([
 					}
 				}
 			});
-			
-/*				var iOriginalBusyDelay,
-					oViewModel = new JSONModel({
-						busy : true,
-						delay : 0
-					});
 
-				this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+			/*				var iOriginalBusyDelay,
+								oViewModel = new JSONModel({
+									busy : true,
+									delay : 0
+								});
 
-				// Store original busy indicator delay, so it can be restored later on
-				iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
-				this.setModel(oViewModel, "objectView");
-				this.getOwnerComponent().getModel().metadataLoaded().then(function () {
-						// Restore original busy indicator delay for the object view
-						oViewModel.setProperty("/delay", iOriginalBusyDelay);
-					}
-				);*/
+							this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+
+							// Store original busy indicator delay, so it can be restored later on
+							iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
+							this.setModel(oViewModel, "objectView");
+							this.getOwnerComponent().getModel().metadataLoaded().then(function () {
+									// Restore original busy indicator delay for the object view
+									oViewModel.setProperty("/delay", iOriginalBusyDelay);
+								}
+							);*/
 		},
 
 		/* =========================================================== */
@@ -136,7 +136,44 @@ sap.ui.define([
 					}
 				});
 			}
+
+			//Assume only one chnaged at a time
+			var pendingChanges = oModel.getPendingChanges();
+			var pendingChange = pendingChanges[Object.keys(pendingChanges)[0]];
+			var pendingKey = (Object.keys(pendingChanges)[0]).replace("id-","annotation_pending:");
+			var positionKey = pendingKey.indexOf("('");
+			pendingKey = pendingKey.substring(positionKey+2,pendingKey.length-2);
+			var changeEntry = this.buildEntry( pendingChange);
+			changeEntry.subjectId = pendingKey;
+			changeEntry["label"] = pendingKey;
+			changeEntry["substanceAnnotation_bodyText"] = that.getView().byId("substanceAnnotation_bodyText_id").getValue();			
+			//changeEntry["substanceAnnotation_annotationCreated"] =that.getView().byId("substanceAnnotation_annotationCreated_id").getValue();
+			
+
+			
+			//because we cannot do deep or associative inserts 
+			oModel.resetChanges();
+			var oContext = oModel.create("/SubstanceAnnotation",changeEntry);
 			oModel.submitChanges();
+		},
+
+		buildEntry: function( pendingChange) {
+			var entry = {};
+			for (var property in pendingChange) {
+				if ((property !== "__metadata") && (pendingChange[property] !== undefined)) {
+					if (pendingChange[property] instanceof Object) {
+						entry[property] = {
+							__metadata: {
+								uri: pendingChange[property]["__metadata"]["uri"]
+							}
+						};
+
+					} else {
+						entry[property] = pendingChange[property];
+					}
+				}
+			}
+			return entry;
 		},
 		/**
 		 * Event handler  for navigating back.
@@ -384,8 +421,8 @@ sap.ui.define([
 			var sControlType;
 			for (var i = 0; i < aFormContent.length; i++) {
 				sControlType = aFormContent[i].getMetadata().getName();
-				if (sControlType === "sap.m.Input" || sControlType === "sap.m.DateTimeInput" ||
-					sControlType === "sap.m.CheckBox") {
+				if (sControlType === "sap.m.Input" || sControlType === "sap.m.DateTimeInput"|| sControlType === "com.inova8.annotations.editor.control.InputResource" ||
+					sControlType === "sap.m.CheckBox" || sControlType === "sap.m.TextArea"|| sControlType === "sap.m.DateTimePicker") {
 					aControls.push({
 						control: aFormContent[i],
 						required: aFormContent[i].getRequired && aFormContent[i].getRequired()

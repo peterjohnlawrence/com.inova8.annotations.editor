@@ -22,6 +22,10 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 				entitySet: {
 					type: "string",
 					defaultValue: "Contributor"
+				},
+				required: {
+					type: "boolean",
+					defaultValue: false
 				}
 			},
 			aggregations: {
@@ -45,6 +49,9 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 				path: iPath + "/label"
 			});
 		},
+		getValue: function() {
+			return	this.resourceLabel.getValue();
+		},
 		handleValueHelp: function(oEvent) {
 			//Since this is launched from a fragment with this as its controller
 			var thisParent = this.getParent();
@@ -67,9 +74,9 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 						entitySet: thisParent.getEntitySet()
 					})]
 				});
-			//	this._valueHelpDialog.setBindingContext(thisParent.getBindingContext());
+				//	this._valueHelpDialog.setBindingContext(thisParent.getBindingContext());
 				this._valueHelpDialog.bindAggregation("items", {
-					path:"/" + thisParent.getEntitySet(),
+					path: "/" + thisParent.getEntitySet(),
 					template: itemTemplate
 				});
 				this._valueHelpDialog.attachSearch(thisParent._handleValueHelpSearch, thisParent);
@@ -95,18 +102,18 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 				var newResourcePath = oSelectedItem.getBindingContext().getPath();
 				var currentModel = thisParent.getBindingContext().getModel();
 				this.currentResource = currentModel.getObject(this.getProperty("path"), thisParent.getBindingContext());
-				var targetEntityKey ="";// "('"+ this.currentResource.subjectId.replace(':','%3A')+"')";
+				var targetEntityKey = ""; // "('"+ this.currentResource.subjectId.replace(':','%3A')+"')";
 				if (this.currentResource) {
 					//delete this.currentResource;
-					currentModel.remove(thisParent.getBindingContext() + "/$links/" + this.getProperty("path")+targetEntityKey, null, function() {
-						currentModel.refresh(true);
-						var pendingChanges = currentModel.getPendingChanges();
-						var newResource = currentModel.getObject(newResourcePath);
-						//	var updated = currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext(), false);
-						var updated = currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext());
-					}, function() {
-						alert("Delete failed");
-					});
+					/*					currentModel.remove(thisParent.getBindingContext() + "/$links/" + this.getProperty("path")+targetEntityKey, null, function() {
+											currentModel.refresh(true);
+											var pendingChanges = currentModel.getPendingChanges();
+											var newResource = currentModel.getObject(newResourcePath);
+											//	var updated = currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext(), false);
+											var updated = currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext());
+										}, function() {
+											alert("Delete failed");
+										});*/
 
 				} else {
 					var pendingChanges = currentModel.getPendingChanges();
