@@ -14,7 +14,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'richedit/CKEditorToo
 
 		Editor = window.CKEDITOR;
 
-		var CKEditor = Control.extend('richedit.CKEditor', {
+		var CKEditor = Control.extend('richedit.richeditor', {
 			metadata: {
 				properties: {
 					'value': {
@@ -25,6 +25,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'richedit/CKEditorToo
 					},
 					'keywords': {
 						type: 'object',
+						group: 'Data',
+						bindable: 'bindable',
+						defaultValue: {}
+					},
+					'formattedText': {
+						type: 'string',
 						group: 'Data',
 						bindable: 'bindable',
 						defaultValue: {}
@@ -172,8 +178,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'richedit/CKEditorToo
 			}
 			var localStorage = window.localStorage;
 			var userDictionary = localStorage.scayt_user_dictionary.slice(8); // remove array<$>
-			var wordArray = userDictionary.split(',');
-			var pattern = new RegExp("(" + wordArray.join('|') + ")", "ig");
+			var pattern = "";
+			if (!jQuery.isEmptyObject(userDictionary)) {
+				var wordArray = userDictionary.split(',');
+				pattern = new RegExp("(" + wordArray.join('|') + "|(CS[A-Z]{2}[0-9]{6}))", "ig");
+			} else {
+				pattern = new RegExp("(CS[A-Z]{2}[0-9]{6})", "ig");
+			}
 			var matchArray;
 			var keywordsObject = {};
 			while ((matchArray = pattern.exec(newVal)) !== null) {
@@ -186,8 +197,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Control', 'richedit/CKEditorToo
 				}
 			}
 			this.setProperty('keywords', keywordsObject, true);
+			var formattedtext = newVal.replace(pattern, function formattedText(match) {
+				return "<strong>" + match + "</strong>";
+			});
+			this.setProperty('formattedText', formattedtext);
+
 			this.fireBlur({
-				"keywords": keywordsObject
+				"keywords": keywordsObject,
+				"formattedText": formattedtext
 			});
 		};
 

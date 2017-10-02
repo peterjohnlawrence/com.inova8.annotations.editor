@@ -26,6 +26,10 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 				required: {
 					type: "boolean",
 					defaultValue: false
+				},
+				editable:{
+					type:"boolean",
+					defaultValue:true
 				}
 			},
 			aggregations: {
@@ -34,12 +38,16 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 					multiple: false,
 					visibility: "hidden"
 				}
+			},
+			events: {
+				'liveChange': {}
 			}
 		},
 		init: function() {
 			this.resourceLabel = new Input({
 				showValueHelp: true,
-				valueHelpRequest: this.handleValueHelp
+				valueHelpRequest: this.handleValueHelp,
+				valueHelpOnly: true
 			});
 			this.setAggregation("_resource", this.resourceLabel);
 		},
@@ -47,10 +55,15 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 			this.setProperty("path", iPath, true);
 			this.resourceLabel.bindProperty("value", {
 				path: iPath + "/label"
+					//path: iPath 
 			});
 		},
+		setEditable:function(editable){
+			this.setProperty("editable",editable);
+				this.resourceLabel.setEditable(editable);
+		},
 		getValue: function() {
-			return	this.resourceLabel.getValue();
+			return this.resourceLabel.getValue();
 		},
 		handleValueHelp: function(oEvent) {
 			//Since this is launched from a fragment with this as its controller
@@ -104,6 +117,10 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 				this.currentResource = currentModel.getObject(this.getProperty("path"), thisParent.getBindingContext());
 				var targetEntityKey = ""; // "('"+ this.currentResource.subjectId.replace(':','%3A')+"')";
 				if (this.currentResource) {
+					var newResource = currentModel.getObject(newResourcePath);
+					currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext());
+					currentModel.refresh(true);
+
 					//delete this.currentResource;
 					/*					currentModel.remove(thisParent.getBindingContext() + "/$links/" + this.getProperty("path")+targetEntityKey, null, function() {
 											currentModel.refresh(true);
@@ -116,13 +133,14 @@ sap.ui.define(["sap/ui/core/Control", "sap/m/Input", "sap/ui/model/Filter", "sap
 										});*/
 
 				} else {
-					var pendingChanges = currentModel.getPendingChanges();
+					//var pendingChanges = currentModel.getPendingChanges();
 					var newResource = currentModel.getObject(newResourcePath);
 					//	var updated = currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext(), false);
 					var updated = currentModel.setProperty(this.getProperty("path"), newResource, thisParent.getBindingContext());
 				}
-
+				this.fireLiveChange();
 			}
+
 		},
 		renderer: function(oRM, oControl) {
 			oRM.write("<div");

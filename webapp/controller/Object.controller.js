@@ -27,11 +27,14 @@ sap.ui.define([
 				delay: 0,
 				busy: false,
 				mode: "create",
-				viewTitle: ""
+				viewTitle: "",
+				fullEdit: true,
+				keyword: true
 			});
 			this.setModel(this._oViewModel, "viewModel");
 			this._oKeywordModel = new sap.ui.model.json.JSONModel({
-				keywords: ""
+				keywords: "",
+				formattedtext: ""
 			});
 			this.setModel(this._oKeywordModel, "keywordModel");
 			// Register the view with the message manager
@@ -47,22 +50,21 @@ sap.ui.define([
 				}
 			});
 
-			/*				var iOriginalBusyDelay,
-								oViewModel = new JSONModel({
-									busy : true,
-									delay : 0
-								});
+			var iOriginalBusyDelay,
+				oViewModel = new JSONModel({
+					busy: false,
+					delay: 0
+				});
 
-							this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+			this.getRouter().getRoute("object").attachPatternMatched(this._onObjectMatched, this);
 
-							// Store original busy indicator delay, so it can be restored later on
-							iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
-							this.setModel(oViewModel, "objectView");
-							this.getOwnerComponent().getModel().metadataLoaded().then(function () {
-									// Restore original busy indicator delay for the object view
-									oViewModel.setProperty("/delay", iOriginalBusyDelay);
-								}
-							);*/
+			// Store original busy indicator delay, so it can be restored later on
+			iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();
+			this.setModel(oViewModel, "objectView");
+			this.getOwnerComponent().getModel().metadataLoaded().then(function() {
+				// Restore original busy indicator delay for the object view
+				//	oViewModel.setProperty("/delay", iOriginalBusyDelay);
+			});
 		},
 
 		/* =========================================================== */
@@ -74,6 +76,20 @@ sap.ui.define([
 		 * @function
 		 * @public
 		 */
+		onRichText: function() {
+			if (this._oViewModel.getProperty("/fullEdit")) {
+				this._oViewModel.setProperty("/fullEdit", false);
+			} else {
+				this._oViewModel.setProperty("/fullEdit", true);
+			}
+		},
+		onKeyword: function() {
+			if (this._oViewModel.getProperty("/keyword")) {
+				this._oViewModel.setProperty("/keyword", false);
+			} else {
+				this._oViewModel.setProperty("/keyword", true);
+			}
+		},
 		onBlur: function(oEvent) {
 			var keywordsObject = oEvent.getParameters().keywords;
 			var suggestedkeywords = "";
@@ -85,6 +101,7 @@ sap.ui.define([
 				}
 			}
 			this._oKeywordModel.setProperty("/keywords", suggestedkeywords);
+			this._oKeywordModel.setProperty("/formattedText", oEvent.getParameters().formattedText);
 		},
 		onVerify: function() {
 			var that = this,
@@ -109,6 +126,11 @@ sap.ui.define([
 				);
 
 			}
+		},
+		onDelete: function(oEvent) {
+			var entity = oEvent.getSource().getBindingContext().getPath();
+			this._showConfirmDelete(entity);
+
 		},
 		onSave: function() {
 			var that = this,
@@ -137,31 +159,64 @@ sap.ui.define([
 				});
 			}
 
-			//Assume only one chnaged at a time
+			//Assume only one changed at a time
 			var pendingChanges = oModel.getPendingChanges();
 			var pendingChange = pendingChanges[Object.keys(pendingChanges)[0]];
-			var pendingKey = (Object.keys(pendingChanges)[0]).replace("id-","annotation_pending:");
-			var positionKey = pendingKey.indexOf("('");
-			pendingKey = pendingKey.substring(positionKey+2,pendingKey.length-2);
-			var changeEntry = this.buildEntry( pendingChange);
-			changeEntry.subjectId = pendingKey;
-			changeEntry["label"] = pendingKey;
-			changeEntry["substanceAnnotation_bodyText"] = that.getView().byId("substanceAnnotation_bodyText_id").getValue();			
-			//changeEntry["substanceAnnotation_annotationCreated"] =that.getView().byId("substanceAnnotation_annotationCreated_id").getValue();
-			
+			var pendingEntity = (Object.keys(pendingChanges)[0]);
 
-			
-			//because we cannot do deep or associative inserts 
-			oModel.resetChanges();
-			var oContext = oModel.create("/SubstanceAnnotation",changeEntry);
-			oModel.submitChanges();
+			//Now need to distiguish between an Update and a Create
+			if (this._oViewModel.getProperty("/mode") === "edit") {
+				//assume create so add all the bits required
+				var updateEntry = this.buildEntry(pendingChange);
+				//because we cannot do deep or associative inserts 
+				oModel.resetChanges();
+				oModel.update("/" + pendingEntity, updateEntry,{
+					success: that._navBack(),
+					error: that.updateErrorHandler(updateEntry)
+				});
+/*				oModel.submitChanges({
+					success: that._navBack(),
+					error: that.updateErrorHandler(updateEntry)
+				});*/
+			} else {
+				//assume create so add all the bits required
+				pendingEntity = pendingEntity.replace("id-", "annotation_pending~");
+				var positionKey = pendingEntity.indexOf("('");
+				var pendingKey = pendingEntity.substring(positionKey + 2, pendingEntity.length - 2);
+				var createEntry = this.buildEntry(pendingChange);
+				createEntry.subjectId = pendingKey;
+				createEntry["label"] = pendingKey;
+				createEntry["substanceAnnotation_bodyText"] = that.getView().byId("substanceAnnotation_bodyText_id").getValue();
+				//Date not being added to pending. Add manually using this format: 2017-07-26T11:00:22.298
+				createEntry["substanceAnnotation_annotationCreated"] = that.getView().byId("substanceAnnotation_annotationCreated_id").getDateValue()
+					.toISOString().slice(0, 23);
+
+				//because we cannot do deep or associative inserts 
+				oModel.resetChanges();
+				oModel.create("/SubstanceAnnotation", createEntry,{
+					success: that._navBack(),
+					error: that.createErrorHandler(createEntry)
+				});
+/*				oModel.submitChanges({
+					success: that._navBack(),
+					error: that.createErrorHandler(createEntry)
+				});*/
+			}
+
 		},
-
-		buildEntry: function( pendingChange) {
+		updateErrorHandler: function(updateEntry) {
+			alert("update failed: " + JSON.stringify( updateEntry));
+		},
+		createErrorHandler: function(createEntry) {
+			alert("create failed: " + JSON.stringify( createEntry));
+		},
+		buildEntry: function(pendingChange) {
 			var entry = {};
 			for (var property in pendingChange) {
 				if ((property !== "__metadata") && (pendingChange[property] !== undefined)) {
-					if (pendingChange[property] instanceof Object) {
+					if (pendingChange[property] instanceof Date) {
+						entry[property] = pendingChange[property];
+					} else if (pendingChange[property] instanceof Object) {
 						entry[property] = {
 							__metadata: {
 								uri: pendingChange[property]["__metadata"]["uri"]
@@ -228,6 +283,23 @@ sap.ui.define([
 			}.bind(this));
 		},
 		/**
+		 * Binds the view to the object path.
+		 * @function
+		 * @param {string} sObjectPath path to the object to be bound
+		 * @private
+		 */
+		_bindView: function(sObjectPath) {
+			var oViewModel = this.getModel("objectView"),
+				oDataModel = this.getModel();
+
+			this.getView().bindElement({
+				path: sObjectPath,
+				events: {
+					change: this._onBindingChange.bind(this)
+				}
+			});
+		},
+		/**
 		 * Navigates back in the browser history, if the entry was created by this app.
 		 * If not, it navigates to the Details page
 		 * @private
@@ -284,7 +356,33 @@ sap.ui.define([
 				}
 			);
 		},
-
+		/**
+		 * Opens a dialog letting the user either confirm or cancel the quit and discard of changes.
+		 * @private
+		 */
+		_showConfirmDelete: function(entity) {
+			var oComponent = this.getOwnerComponent(),
+				oModel = this.getModel();
+			var that = this;
+			MessageBox.confirm(
+				this._oResourceBundle.getText("confirmDeleteMessage"), {
+					styleClass: oComponent.getContentDensityClass(),
+					onClose: function(oAction) {
+						if (oAction === sap.m.MessageBox.Action.OK) {
+							oModel.remove(entity, {
+								method: "DELETE",
+								success: function(data) {
+									that._navBack();
+								},
+								error: function(e) {
+									alert("delete error");
+								}
+							});
+						}
+					}
+				}
+			);
+		},
 		/**
 		 * Prepares the view for editing the selected object
 		 * @param {sap.ui.base.Event} oEvent the  display event
@@ -298,8 +396,11 @@ sap.ui.define([
 			this._oViewModel.setProperty("/viewTitle", this._oResourceBundle.getText("editViewTitle"));
 
 			oView.bindElement({
-				path: oData.objectPath.replace("%3A", ":")
+				path: oData.objectPath
 			});
+			//Clear the formatted text and keywords since new edit
+			this._oKeywordModel.setProperty("/keywords", "");
+			this._oKeywordModel.setProperty("/formattedText", "");
 		},
 
 		/**
@@ -315,14 +416,18 @@ sap.ui.define([
 				this.getView().unbindObject();
 				return;
 			}
-
 			this._oViewModel.setProperty("/viewTitle", this._oResourceBundle.getText("createViewTitle"));
 			this._oViewModel.setProperty("/mode", "create");
+			//TODO initialize data from any query paramters on Edit line
 			var oContext = this._oODataModel.createEntry("SubstanceAnnotation", {
+				properties: {  substanceAnnotation_annotationCreated:new Date()} ,
 				success: this._fnEntityCreated.bind(this),
 				error: this._fnEntityCreationFailed.bind(this)
 			});
 			this.getView().setBindingContext(oContext);
+			//Clear the formatted text and keywords since new edit
+			this._oKeywordModel.setProperty("/keywords", "");
+			this._oKeywordModel.setProperty("/formattedText", "");
 		},
 
 		/**
@@ -421,8 +526,9 @@ sap.ui.define([
 			var sControlType;
 			for (var i = 0; i < aFormContent.length; i++) {
 				sControlType = aFormContent[i].getMetadata().getName();
-				if (sControlType === "sap.m.Input" || sControlType === "sap.m.DateTimeInput"|| sControlType === "com.inova8.annotations.control.InputResource" ||
-					sControlType === "sap.m.CheckBox" || sControlType === "sap.m.TextArea"|| sControlType === "sap.m.DateTimePicker") {
+				if (sControlType === "sap.m.Input" || sControlType === "sap.m.DateTimeInput" || sControlType ===
+					"com.inova8.annotations.control.InputResource" ||
+					sControlType === "sap.m.CheckBox" || sControlType === "sap.m.TextArea" || sControlType === "sap.m.DateTimePicker") {
 					aControls.push({
 						control: aFormContent[i],
 						required: aFormContent[i].getRequired && aFormContent[i].getRequired()

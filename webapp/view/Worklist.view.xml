@@ -1,6 +1,12 @@
 <mvc:View controllerName="com.inova8.annotations.controller.Worklist" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" 	xmlns:layout="sap.ui.layout" 	xmlns:rdf="com.inova8.annotations.control" 
-	xmlns:semantic="sap.m.semantic">
-	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>worklistViewTitle}">
+	xmlns:semantic="sap.m.semantic" xmlns:html="http://www.w3.org/1999/xhtml">
+	   <html:style>
+      .textAreaBorder {
+         border-style: groove;
+         padding:10px
+      }
+   </html:style>
+	<semantic:FullscreenPage id="page"  title="{i18n>worklistViewTitle}">
 		<semantic:content>		
 			<Table id="table" width="auto" class="sapUiResponsiveMargin"
 				items="{ path: '/SubstanceAnnotation', sorter: { path: 'subjectId', descending: false } , parameters: {'expand':'substanceAnnotation_Creator,substanceAnnotation_Subject,substanceAnnotation_Substance,substanceAnnotation_Tag'} }" noDataText="{worklistView>/tableNoDataText}"
@@ -30,11 +36,11 @@
 									<Text text="{substanceAnnotation_Creator/subjectId}" />-->
 									<Text
 										text="{ path: 'substanceAnnotation_annotationCreated', type: 'sap.ui.model.type.DateTime', formatOptions: { style : 'medium'}}"/>
-									<TextArea value="{substanceAnnotation_bodyText}" width="100%" rows="5">
+									<FormattedText htmlText="{substanceAnnotation_bodyText}" width="95%" rows="5" class="textAreaBorder">
 										<layoutData>
 											<layout:GridData span="L12 M12 S12"/>
 										</layoutData>
-									</TextArea>
+									</FormattedText>
 								</layout:content>
 							</layout:Grid>
 						</cells>
@@ -43,7 +49,7 @@
 			</Table>
 		</semantic:content>
 		<semantic:addAction>
-			<semantic:AddAction id="cancel" press="onAdd"/>
+			<semantic:AddAction id="add" press="onAdd"/>
 		</semantic:addAction>
 	</semantic:FullscreenPage>
 </mvc:View>

@@ -1,7 +1,10 @@
-<mvc:View controllerName="com.inova8.annotations.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:f="sap.ui.layout.form" xmlns:rdf="com.inova8.annotations.control" xmlns:table="sap.ui.table" xmlns:richedit="richedit"
-	xmlns:semantic="sap.m.semantic">
-	<semantic:FullscreenPage id="page" navButtonPress="onNavBack" showNavButton="true" title="{i18n>objectTitle}" busy="{objectView>/busy}"
+<mvc:View controllerName="com.inova8.annotations.controller.Object" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:f="sap.ui.layout.form"
+	xmlns:rdf="com.inova8.annotations.control" xmlns:table="sap.ui.table" xmlns:richedit="richedit" xmlns:semantic="sap.m.semantic"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<html:style>
+		.textAreaFont { font-size:small; border-style: groove; padding:10px }
+	</html:style>
+	<semantic:FullscreenPage id="page" navButtonPress="onCancel" showNavButton="true" title="{i18n>objectTitle}" busy="{objectView>/busy}"
 		busyIndicatorDelay="{objectView>/delay}">
 		<semantic:content>
 			<f:SimpleForm class="editableForm" columnsL="1" columnsM="1" editable="true" emptySpanL="4" emptySpanM="4" id="newEntitySimpleForm"
@@ -12,20 +15,32 @@
 						enabled="{= ${viewModel>/mode} === 'edit'? false: true}" visible="true"
 						value="{ path: 'subjectId', type: 'sap.ui.model.odata.type.String' , constraints:{ nullable:false } }"/>
 					<Label text="Subject" required="true"/>
-					<rdf:InputResource path="substanceAnnotation_Subject" entitySet="Subject" liveChange="_validateSaveEnablement" required="true"/>
+					<rdf:InputResource path="substanceAnnotation_Subject" entitySet="Subject" liveChange="_validateSaveEnablement" required="true" editable="{= ${viewModel>/mode} === 'edit'? false: true}"/>
 					<Label text="Substance" required="true"/>
-					<rdf:InputResource path="substanceAnnotation_Substance" entitySet="Substance" required="true"/>
+					<rdf:InputResource path="substanceAnnotation_Substance" entitySet="Substance" liveChange="_validateSaveEnablement" required="true" editable="{= ${viewModel>/mode} === 'edit'? false: true}"/>
 					<Label text="Creator" required="true"/>
-					<rdf:InputResource path="substanceAnnotation_Creator" entitySet="Creator" required="true"/>
+					<rdf:InputResource path="substanceAnnotation_Creator" entitySet="Creator" liveChange="_validateSaveEnablement" required="true" editable="{= ${viewModel>/mode} === 'edit'? false: true}"/>
 					<Label text="Created" required="false"/>
 					<DateTimePicker name="substanceAnnotation_annotationCreated" id="substanceAnnotation_annotationCreated_id"
-						value="{ path: 'substanceAnnotation_annotationCreated', type: 'sap.ui.model.type.DateTime', formatOptions: { style : 'medium'} } " required="true"/>
-					<Label text="Annotation Text" required="true"/>
+						value="{ path: 'substanceAnnotation_annotationCreated', type: 'sap.ui.model.type.DateTime', formatOptions: { style : 'medium'} }"
+						required="true" change="_validateSaveEnablement"/>
+					<!--					<Label text="Annotation Text" required="true"/>
 					<TextArea name="substanceAnnotation_bodyText" id="substanceAnnotation_bodyText_id" valueLiveUpdate="true"
-						liveChange="_validateSaveEnablement" enabled="true" visible="true" rows="7"
+						liveChange="_validateSaveEnablement" enabled="true" visible="{= !(${viewModel>/fullEdit})}" rows="7"
 						value="{ path: 'substanceAnnotation_bodyText', type: 'sap.ui.model.odata.type.String' }" required="true"/>
+-->
+					<Label text="Annotation RichText" required="true"/>
+					<richedit:richeditor id="substanceAnnotation_bodyText_id"
+						value="{ path: 'substanceAnnotation_bodyText', type: 'sap.ui.model.odata.type.String' }" editable="true" inline="false" toolbar="Basic"
+						visible="{= (${viewModel>/fullEdit})}" blur="onBlur"/>
+					<!--<Label text="Discovered Keywords" required="false"/>
+					<FormattedText id="spellCheckKeywords" htmlText="{path: 'keywordModel>/keywords'}" visible="{= (${viewModel>/keyword})}"/>-->
+					<Label text="Highlighted Keywords" required="false"/>
+					<FormattedText id="formattedText" htmlText="{path: 'keywordModel>/formattedText'}" visible="{= (${viewModel>/keyword})}"
+						class="textAreaFont" width="95%"/>
 					<Label text="Proposed tags" required="false"/>
-					<table:Table id="proposedTags" rows="{substanceAnnotation_Tag}" selectionMode="MultiToggle" visibleRowCount="4">
+					<table:Table id="proposedTags" rows="{substanceAnnotation_Tag}" selectionMode="MultiToggle" visibleRowCount="4"
+						visible="{= !(${viewModel>/keyword})}">
 						<table:columns>
 							<table:Column width="15%">
 								<Label text="Start"/>
@@ -51,6 +66,15 @@
 				</f:content>
 			</f:SimpleForm>
 		</semantic:content>
+		<!--		<semantic:customFooterContent>
+			<Button text="ToggleEdit" press="onRichText"/>
+		</semantic:customFooterContent>
+		<semantic:customFooterContent>
+			<Button text="ToggleKeywords" press="onKeyword"/>
+		</semantic:customFooterContent>-->
+		<semantic:deleteAction>
+			<semantic:DeleteAction id="delete" enabled="{viewModel>/enableCreate}"  press="onDelete"/>
+		</semantic:deleteAction>
 		<semantic:saveAction>
 			<semantic:SaveAction id="save" enabled="{viewModel>/enableCreate}" press="onSave"/>
 		</semantic:saveAction>
