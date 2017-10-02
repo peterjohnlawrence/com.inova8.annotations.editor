@@ -170,14 +170,8 @@ sap.ui.define([
 				var updateEntry = this.buildEntry(pendingChange);
 				//because we cannot do deep or associative inserts 
 				oModel.resetChanges();
-				oModel.update("/" + pendingEntity, updateEntry,{
-					success: that._navBack(),
-					error: that.updateErrorHandler(updateEntry)
-				});
-/*				oModel.submitChanges({
-					success: that._navBack(),
-					error: that.updateErrorHandler(updateEntry)
-				});*/
+				oModel.update("/" + pendingEntity, updateEntry);
+
 			} else {
 				//assume create so add all the bits required
 				pendingEntity = pendingEntity.replace("id-", "annotation_pending~");
@@ -185,30 +179,17 @@ sap.ui.define([
 				var pendingKey = pendingEntity.substring(positionKey + 2, pendingEntity.length - 2);
 				var createEntry = this.buildEntry(pendingChange);
 				createEntry.subjectId = pendingKey;
-				createEntry["label"] = pendingKey;
-				createEntry["substanceAnnotation_bodyText"] = that.getView().byId("substanceAnnotation_bodyText_id").getValue();
-				//Date not being added to pending. Add manually using this format: 2017-07-26T11:00:22.298
+				createEntry.label = pendingKey;
+				createEntry.substanceAnnotation_bodyText = that.getView().byId("substanceAnnotation_bodyText_id").getValue();
+				//TODO Date not being added to pending for some reason. Add manually using this format: 2017-07-26T11:00:22.298
 				createEntry["substanceAnnotation_annotationCreated"] = that.getView().byId("substanceAnnotation_annotationCreated_id").getDateValue()
 					.toISOString().slice(0, 23);
 
 				//because we cannot do deep or associative inserts 
 				oModel.resetChanges();
-				oModel.create("/SubstanceAnnotation", createEntry,{
-					success: that._navBack(),
-					error: that.createErrorHandler(createEntry)
-				});
-/*				oModel.submitChanges({
-					success: that._navBack(),
-					error: that.createErrorHandler(createEntry)
-				});*/
+				oModel.create("/SubstanceAnnotation", createEntry);
 			}
 
-		},
-		updateErrorHandler: function(updateEntry) {
-			alert("update failed: " + JSON.stringify( updateEntry));
-		},
-		createErrorHandler: function(createEntry) {
-			alert("create failed: " + JSON.stringify( createEntry));
 		},
 		buildEntry: function(pendingChange) {
 			var entry = {};
@@ -299,11 +280,7 @@ sap.ui.define([
 				}
 			});
 		},
-		/**
-		 * Navigates back in the browser history, if the entry was created by this app.
-		 * If not, it navigates to the Details page
-		 * @private
-		 */
+
 		_checkIfBatchRequestSucceeded: function(oEvent) {
 			var oParams = oEvent.getParameters();
 			var aRequests = oEvent.getParameters().requests;
@@ -322,6 +299,11 @@ sap.ui.define([
 				return false;
 			}
 		},
+		/**
+		 * Navigates back in the browser history, if the entry was created by this app.
+		 * If not, it navigates to the Details page
+		 * @private
+		 */
 		_navBack: function() {
 			var oHistory = sap.ui.core.routing.History.getInstance(),
 				sPreviousHash = oHistory.getPreviousHash();
@@ -375,7 +357,13 @@ sap.ui.define([
 									that._navBack();
 								},
 								error: function(e) {
-									alert("delete error");
+									sap.m.MessageBox.error("Cannot confirm delet, a problem occurred", {
+										title: "Delete Error", // default
+										onClose: null, // default
+										styleClass: "", // default
+										initialFocus: null, // default
+										textDirection: sap.ui.core.TextDirection.Inherit // default
+									});
 								}
 							});
 						}
@@ -420,7 +408,9 @@ sap.ui.define([
 			this._oViewModel.setProperty("/mode", "create");
 			//TODO initialize data from any query paramters on Edit line
 			var oContext = this._oODataModel.createEntry("SubstanceAnnotation", {
-				properties: {  substanceAnnotation_annotationCreated:new Date()} ,
+				properties: {
+					substanceAnnotation_annotationCreated: new Date()
+				},
 				success: this._fnEntityCreated.bind(this),
 				error: this._fnEntityCreationFailed.bind(this)
 			});
@@ -477,8 +467,9 @@ sap.ui.define([
 		 */
 		_fnUpdateSuccess: function() {
 			this.getModel("appView").setProperty("/busy", false);
-			this.getView().unbindObject();
-			this.getRouter().getTargets().display("object");
+			this._navback();
+			/*			this.getView().unbindObject();
+						this.getRouter().getTargets().display("object");*/
 		},
 
 		/**
