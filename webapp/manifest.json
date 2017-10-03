@@ -11,7 +11,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "/odata2sparql/odata2sparql.v2/2.0/annpending/",
+				"uri": "http://localhost:8080/odata2sparql.v2/2.0/annpending/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",
